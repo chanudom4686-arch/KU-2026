@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.0</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f4f7f6;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --ku-green: #006664;
+      --ku-green-light: #e6f2f2;
+      --ku-gold: #b2bb1e;
+      --border-color: #e2e8f0;
+      --free-slot-bg: rgba(16, 185, 129, 0.12);
+      --free-slot-border: #10b981;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Prompt', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding: 24px 16px 48px;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Header Section */
+    .header-card {
+      background: linear-gradient(135deg, #005250 0%, #007a78 100%);
+      color: #ffffff;
+      padding: 24px 28px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-info h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 4px;
+    }
+
+    .header-info p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(4px);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background-color: #ffffff;
+      color: var(--ku-green);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      background-color: #f0fdf4;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-light {
+      background-color: rgba(255, 255, 255, 0.14);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+    }
+
+    .btn-outline-light:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-outline-light.active {
+      background-color: #ecfdf5;
+      color: #047857;
+      border-color: #10b981;
+    }
+
+    .btn-copy-item {
+      background-color: var(--ku-green-light);
+      color: var(--ku-green);
+      padding: 6px 12px;
+      font-size: 0.82rem;
+      border-radius: 8px;
+      border: 1px solid rgba(0, 102, 100, 0.2);
+    }
+
+    .btn-copy-item:hover {
+      background-color: var(--ku-green);
+      color: #ffffff;
+    }
+
+    .btn-copy-item.copied {
+      background-color: #10b981;
+      color: #ffffff;
+      border-color: #10b981;
+    }
+
+    /* Section Card */
+    .section-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 1.18rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-hint {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Timetable Grid */
+    .timetable-wrapper {
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .timetable {
+      min-width: 960px;
+      display: grid;
+      /* Column 1: Day label (100px), Columns 2..19: 18 half-hour slots from 08:00 to 17:00 */
+      grid-template-columns: 100px repeat(18, minmax(46px, 1fr));
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background-color: #ffffff;
+    }
+
+    .time-header {
+      background-color: #f8fafc;
+      border-bottom: 2px solid var(--border-color);
+      border-left: 1px solid var(--border-color);
+      padding: 10px 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+      grid-column: span 2;
+    }
+
+    .corner-header {
+      background-color: #f1f5f9;
+      border-bottom: 2px solid var(--border-color);
+      padding: 10px 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .day-label {
+      background-color: #f8fafc;
+      border-top: 1px solid var(--border-color);
+      border-right: 2px solid var(--border-color);
+      padding: 16px 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      min-height: 84px;
+    }
+
+    .grid-cell-bg {
+      border-top: 1px solid #f1f5f9;
+      border-left: 1px dashed #e2e8f0;
+      min-height: 84px;
+    }
+
+    .grid-cell-bg.hour-start {
+      border-left: 1px solid var(--border-color);
+    }
+
+    .grid-cell-bg.lunch-slot {
+      background-color: #fafafa;
+    }
+
+    /* Course Block inside Timetable */
+    .course-block {
+      margin: 5px 3px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border-left: 4px solid;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .course-block:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+      z-index: 5;
+    }
+
+    .course-block-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .course-code-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .course-sec-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      opacity: 0.85;
+    }
+
+    .course-block-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 4px 0 2px;
+      line-height: 1.25;
+    }
+
+    .course-block-meta {
+      font-size: 0.72rem;
+      opacity: 0.85;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Recommended Free Slot Block */
+    .free-slot-block {
+      margin: 6px 4px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background-color: var(--free-slot-bg);
+      border: 1.5px dashed var(--free-slot-border);
+      color: #065f46;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+      z-index: 1;
+    }
+
+    body.show-free-slots .free-slot-block {
+      display: flex;
+    }
+
+    /* Course List Cards / Table */
+    .course-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 16px;
+    }
+
+    .course-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      background: #ffffff;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .course-card:hover {
+      border-color: #cbd5e1;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .course-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .code-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .code-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .credit-tag {
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: #f1f5f9;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .course-title-th {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .course-title-en {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .course-details {
+      background: #f8fafc;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .detail-value {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .toast {
+      background: #0f172a;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+      font-size: 0.88rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.22s ease forwards;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-card {
+        padding: 18px;
+      }
+      .course-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="show-free-slots">
+  <div class="container">
+    <!-- Top Banner -->
+    <header class="header-card">
+      <div class="header-info">
+        <h1>ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)</h1>
+        <p>คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (หลักสูตร 2566 - รหัส 67)</p>
+        <div class="badge-group">
+          <span class="badge">📚 วิชาที่เลือกแล้ว: 6 วิชา (14 หน่วยกิต)</span>
+          <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
+          <span class="badge">🔖 Version 1.0</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btnToggleFreeSlots" class="btn btn-outline-light active" type="button">
+          ✨ แสดงช่วงเวลาว่างแนะนำ (เลือกเสรี)
+        </button>
+        <button id="btnCopyAll" class="btn btn-primary" type="button">
+          📋 คัดลอกรหัสทั้งหมด (6 วิชา)
+        </button>
+        <a href="https://my.ku.th/myku/student/std/subject" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">
+          🔗 เปิดเว็บค้นหาวิชา MyKU
+        </a>
+      </div>
+    </header>
+
+    <!-- Visual Timetable Grid -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          🗓️ ตารางเรียนรายสัปดาห์ (คลิกที่ช่องวิชาเพื่อคัดลอกรหัส 8 หลัก)
+        </div>
+        <div class="section-hint">
+          *สีเขียวประ คือช่วงเวลาว่างที่แนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต
+        </div>
+      </div>
+
+      <div class="timetable-wrapper">
+        <div id="timetableGrid" class="timetable" aria-label="ตารางเรียนรายสัปดาห์">
+          <!-- Rendered dynamically via ES6 JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Course Cards with Copy Buttons -->
+    <section class="section-card">
+      <div class="section-header">
+        <div class="section-title">
+          📋 รายชื่อวิชาและปุ่มคัดลอกรหัสวิชา (สำหรับวางใน MyKU)
+        </div>
+        <div class="section-hint">
+          ตัดรหัสหลักสูตร -66 ออกให้แล้ว สามารถกดคัดลอกไปวางในช่องค้นหาของ MyKU ได้ทันที
+        </div>
+      </div>
+
+      <div id="courseCardsContainer" class="course-grid">
+        <!-- Rendered dynamically via ES6 JavaScript -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <script>
+    /**
+     * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
+     * Version 1.0
+     */
+
+    // ข้อมูลรายวิชาทั้ง 6 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
+    const COURSES_DATA = [
+      {
+        code: '02207424',
+        fullCode: '02207424-66',
+        nameTh: 'วิศวกรรมการประปา',
+        nameEn: 'Water Supply Engineering',
+        category: 'เฉพาะเลือก',
+        credits: '3(3-0-6)',
+        section: '700',
+        room: 'เช็คใน MyKU',
+        colorBg: '#e0f2fe',
+        colorBorder: '#0284c7',
+        colorText: '#0369a1',
+        schedules: [
+          { day: 'MON', start: '09:00', end: '11:00', sec: '700', note: '' },
+          { day: 'WED', start: '09:00', end: '12:00', sec: '700', note: 'ตามตารางแผนฯ' }
+        ]
+      },
+      {
+        code: '02232222',
+        fullCode: '02232222-66',
+        nameTh: 'ทฤษฎีโครงสร้าง',
+        nameEn: 'Theory of Structures',
+        category: 'วิชาแกน/บังคับ (เพิ่ม)',
+        credits: '3(3-0-6)',
+        section: '700',
+        room: 'E6220',
+        colorBg: '#ede9fe',
+        colorBorder: '#7c3aed',
+        colorText: '#5b21b6',
+        schedules: [
+          { day: 'TUE', start: '13:00', end: '14:30', sec: '700', note: 'ห้อง E6220' },
+          { day: 'WED', start: '13:00', end: '14:30', sec: '700', note: 'ห้อง E6220' }
+        ]
+      },
+      {
+        code: '02232351',
+        fullCode: '02232351-66',
+        nameTh: 'กลศาสตร์ของดิน',
+        nameEn: 'Soil Mechanics',
+        category: 'วิชาบังคับ',
+        credits: '3(3-0-6)',
+        section: '700',
+        room: 'เช็คใน MyKU',
+        colorBg: '#ffedd5',
+        colorBorder: '#ea580c',
+        colorText: '#9a3412',
+        schedules: [
+          { day: 'FRI', start: '13:00', end: '16:00', sec: '700', note: '' }
+        ]
+      },
+      {
+        code: '02232352',
+        fullCode: '02232352-66',
+        nameTh: 'ปฏิบัติการกลศาสตร์ของดิน',
+        nameEn: 'Soil Mechanics Laboratory',
+        category: 'วิชาบังคับ (แล็บ)',
+        credits: '1(0-3-2)',
+        section: '712',
+        room: 'เช็คใน MyKU',
+        colorBg: '#fce7f3',
+        colorBorder: '#db2777',
+        colorText: '#9d174d',
+        schedules: [
+          { day: 'THU', start: '13:00', end: '16:00', sec: '712', note: 'เลือกหมู่ 712' }
+        ]
+      },
+      {
+        code: '02207491',
+        fullCode: '02207491-66',
+        nameTh: 'ระเบียบวิธีวิจัยทางวิศวกรรมชลประทาน',
+        nameEn: 'Research Methods in Irrigation Eng.',
+        category: 'วิชาบังคับ',
+        credits: '1(1-0-2)',
+        section: '700',
+        room: 'เช็คใน MyKU',
+        colorBg: '#fef3c7',
+        colorBorder: '#d97706',
+        colorText: '#92400e',
+        schedules: [
+          { day: 'FRI', start: '09:00', end: '10:00', sec: '700', note: '' }
+        ]
+      },
+      {
+        code: '02232461',
+        fullCode: '02232461-66',
+        nameTh: 'วิศวกรรมก่อสร้างและการจัดการโครงสร้างพื้นฐาน',
+        nameEn: 'Construction Eng. & Infrastructure Mgmt.',
+        category: 'วิชาบังคับ',
+        credits: '3(3-0-6)',
+        section: '700',
+        room: 'เช็คใน MyKU',
+        colorBg: '#dcfce7',
+        colorBorder: '#16a34a',
+        colorText: '#166534',
+        schedules: [
+          { day: 'THU', start: '10:30', end: '12:00', sec: '700', note: '' },
+          { day: 'FRI', start: '10:30', end: '12:00', sec: '700', note: '' }
+        ]
+      }
+    ];
+
+    // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต
+    const RECOMMENDED_FREE_SLOTS = [
+      { day: 'MON', start: '13:00', end: '16:00', label: '✨ ว่างช่วงบ่าย (ลงเลือกเสรีได้)' },
+      { day: 'TUE', start: '09:00', end: '12:00', label: '✨ ว่างช่วงเช้า (ลงเลือกเสรีได้)' }
+    ];
+
+    const DAYS_CONFIG = [
+      { key: 'MON', label: 'จันทร์' },
+      { key: 'TUE', label: 'อังคาร' },
+      { key: 'WED', label: 'พุธ' },
+      { key: 'THU', label: 'พฤหัสบดี' },
+      { key: 'FRI', label: 'ศุกร์' }
+    ];
+
+    const DAY_NAME_MAP = {
+      MON: 'จันทร์',
+      TUE: 'อังคาร',
+      WED: 'พุธ',
+      THU: 'พฤหัสบดี',
+      FRI: 'ศุกร์'
+    };
+
+    /**
+     * แปลงเวลา HH:MM เป็นดัชนีคอลัมน์ใน CSS Grid (เริ่มที่ 08:00 = คอลัมน์ที่ 2)
+     * แต่ละช่องแทนเวลา 30 นาที
+     */
+    function timeToGridColumn(timeStr) {
+      const [hourStr, minStr] = timeStr.split(':');
+      const hour = parseInt(hourStr, 10);
+      const minute = parseInt(minStr, 10);
+      return (hour - 8) * 2 + (minute >= 30 ? 1 : 0) + 2;
+    }
+
+    /**
+     * แสดงข้อความแจ้งเตือนมุมขวาล่าง (Toast)
+     */
+    function showToast(message) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => toast.remove(), 250);
+      }, 2400);
+    }
+
+    /**
+     * คัดลอกข้อความลง Clipboard พร้อมระบบสำรอง (Fallback) และ Error Handling
+     */
+    async function copyTextToClipboard(text, labelForToast = text) {
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          // Fallback สำหรับการเปิดไฟล์แบบ local file:// ในบางเบราว์เซอร์
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-9999px';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          const successful = document.execCommand('copy');
+          textArea.remove();
+          if (!successful) {
+            throw new Error('Fallback copy command failed');
+          }
+        }
+        console.info(`[Clipboard] คัดลอกสำเร็จ: ${text}`);
+        showToast(`✅ คัดลอกรหัส "${labelForToast}" เรียบร้อยแล้ว!`);
+        return true;
+      } catch (error) {
+        console.error('[Clipboard Error] ไม่สามารถคัดลอกรหัสวิชาได้:', error);
+        showToast(`⚠️ ไม่สามารถคัดลอกอัตโนมัติได้ รหัสคือ: ${text}`);
+        return false;
+      }
+    }
+
+    /**
+     * สร้างตารางเรียนรายสัปดาห์ลงใน #timetableGrid
+     */
+    function renderTimetable() {
+      const gridEl = document.getElementById('timetableGrid');
+      if (!gridEl) return;
+
+      gridEl.innerHTML = '';
+
+      // 1. แถวหัวตารางเวลา (08:00 - 17:00)
+      const cornerEl = document.createElement('div');
+      cornerEl.className = 'corner-header';
+      cornerEl.textContent = 'วัน / เวลา';
+      cornerEl.style.gridRow = '1';
+      cornerEl.style.gridColumn = '1';
+      gridEl.appendChild(cornerEl);
+
+      for (let hour = 8; hour < 17; hour++) {
+        const timeHeader = document.createElement('div');
+        timeHeader.className = 'time-header';
+        const startStr = `${String(hour).padStart(2, '0')}:00`;
+        const endStr = `${String(hour + 1).padStart(2, '0')}:00`;
+        timeHeader.textContent = `${startStr} - ${endStr}`;
+        timeHeader.style.gridRow = '1';
+        const startCol = (hour - 8) * 2 + 2;
+        timeHeader.style.gridColumn = `${startCol} / span 2`;
+        gridEl.appendChild(timeHeader);
+      }
+
+      // 2. สร้างแถวแต่ละวันและเส้นพื้นหลัง
+      DAYS_CONFIG.forEach((dayObj, dayIdx) => {
+        const rowNumber = dayIdx + 2;
+
+        // ชื่อวัน
+        const dayLabel = document.createElement('div');
+        dayLabel.className = 'day-label';
+        dayLabel.textContent = dayObj.label;
+        dayLabel.style.gridRow = String(rowNumber);
+        dayLabel.style.gridColumn = '1';
+        gridEl.appendChild(dayLabel);
+
+        // ช่องพื้นหลัง 18 ช่อง (ช่องละ 30 นาที)
+        for (let slot = 0; slot < 18; slot++) {
+          const cellBg = document.createElement('div');
+          const isHourStart = slot % 2 === 0;
+          const isLunch = slot === 8 || slot === 9; // 12:00 - 13:00
+          cellBg.className = `grid-cell-bg ${isHourStart ? 'hour-start' : ''} ${isLunch ? 'lunch-slot' : ''}`;
+          cellBg.style.gridRow = String(rowNumber);
+          cellBg.style.gridColumn = String(slot + 2);
+          gridEl.appendChild(cellBg);
+        }
+      });
+
+      // 3. วาดบล็อกช่วงเวลาว่างแนะนำสำหรับวิชาเลือกเสรี
+      RECOMMENDED_FREE_SLOTS.forEach((freeSlot) => {
+        const dayIdx = DAYS_CONFIG.findIndex((d) => d.key === freeSlot.day);
+        if (dayIdx === -1) return;
+
+        const rowNumber = dayIdx + 2;
+        const colStart = timeToGridColumn(freeSlot.start);
+        const colEnd = timeToGridColumn(freeSlot.end);
+
+        const freeBlock = document.createElement('div');
+        freeBlock.className = 'free-slot-block';
+        freeBlock.style.gridRow = String(rowNumber);
+        freeBlock.style.gridColumn = `${colStart} / ${colEnd}`;
+        freeBlock.innerHTML = `
+          <span>${freeSlot.label}</span>
+          <small>${freeSlot.start} – ${freeSlot.end} น.</small>
+        `;
+        gridEl.appendChild(freeBlock);
+      });
+
+      // 4. วาดบล็อกวิชาเรียนลงตาราง
+      COURSES_DATA.forEach((course) => {
+        course.schedules.forEach((sched) => {
+          const dayIdx = DAYS_CONFIG.findIndex((d) => d.key === sched.day);
+          if (dayIdx === -1) return;
+
+          const rowNumber = dayIdx + 2;
+          const colStart = timeToGridColumn(sched.start);
+          const colEnd = timeToGridColumn(sched.end);
+
+          const block = document.createElement('div');
+          block.className = 'course-block';
+          block.title = `คลิกเพื่อคัดลอกรหัสวิชา ${course.code}`;
+          block.style.gridRow = String(rowNumber);
+          block.style.gridColumn = `${colStart} / ${colEnd}`;
+          block.style.backgroundColor = course.colorBg;
+          block.style.borderLeftColor = course.colorBorder;
+          block.style.color = course.colorText;
+
+          block.innerHTML = `
+            <div class="course-block-top">
+              <span class="course-code-pill">${course.code}</span>
+              <span class="course-sec-pill">หมู่ ${sched.sec}</span>
+            </div>
+            <div class="course-block-name">${course.nameTh}</div>
+            <div class="course-block-meta">
+              <span>${sched.start}–${sched.end}</span>
+              <span>${sched.note || ''}</span>
+            </div>
+          `;
+
+          block.addEventListener('click', () => {
+            copyTextToClipboard(course.code, `${course.code} (${course.nameTh})`);
+          });
+
+          gridEl.appendChild(block);
+        });
+      });
+    }
+
+    /**
+     * สร้างการ์ดรายวิชาพร้อมปุ่มกดคัดลอกรหัส
+     */
+    function renderCourseCards() {
+      const container = document.getElementById('courseCardsContainer');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      COURSES_DATA.forEach((course) => {
+        const scheduleText = course.schedules
+          .map((s) => `${DAY_NAME_MAP[s.day]} ${s.start}–${s.end} น.`)
+          .join(', ');
+
+        const card = document.createElement('div');
+        card.className = 'course-card';
+
+        card.innerHTML = `
+          <div>
+            <div class="course-card-header">
+              <div class="code-group">
+                <span class="color-dot" style="background-color: ${course.colorBorder};"></span>
+                <span class="code-mono">${course.code}</span>
+                <span class="credit-tag">${course.credits} หน่วยกิต</span>
+              </div>
+              <button type="button" class="btn btn-copy-item" data-code="${course.code}" data-name="${course.nameTh}">
+                📋 คัดลอกรหัส
+              </button>
+            </div>
+            <div class="course-title-th">${course.nameTh}</div>
+            <div class="course-title-en">${course.nameEn}</div>
+          </div>
+
+          <div class="course-details">
+            <div class="detail-row">
+              <span class="detail-label">หมู่เรียน (Section):</span>
+              <span class="detail-value">หมู่ ${course.section} (${course.category})</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">วัน-เวลาเรียน:</span>
+              <span class="detail-value">${scheduleText}</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">ห้องเรียน:</span>
+              <span class="detail-value">${course.room}</span>
+            </div>
+          </div>
+        `;
+
+        const copyBtn = card.querySelector('.btn-copy-item');
+        copyBtn.addEventListener('click', async () => {
+          const ok = await copyTextToClipboard(course.code, `${course.code} (${course.nameTh})`);
+          if (ok) {
+            const originalText = copyBtn.innerHTML;
+            copyBtn.classList.add('copied');
+            copyBtn.innerHTML = '✅ คัดลอกแล้ว!';
+            setTimeout(() => {
+              copyBtn.classList.remove('copied');
+              copyBtn.innerHTML = originalText;
+            }, 1500);
+          }
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    /**
+     * ผูก Event ปุ่มควบคุมด้านบน
+     */
+    function initActions() {
+      const btnCopyAll = document.getElementById('btnCopyAll');
+      if (btnCopyAll) {
+        btnCopyAll.addEventListener('click', () => {
+          const allCodes = COURSES_DATA.map((c) => c.code).join('\n');
+          copyTextToClipboard(allCodes, 'รหัสวิชาทั้งหมด 6 วิชา');
+        });
+      }
+
+      const btnToggleFreeSlots = document.getElementById('btnToggleFreeSlots');
+      if (btnToggleFreeSlots) {
+        btnToggleFreeSlots.addEventListener('click', () => {
+          document.body.classList.toggle('show-free-slots');
+          btnToggleFreeSlots.classList.toggle('active');
+        });
+      }
+    }
+
+    // เริ่มต้นการทำงานเมื่อโหลด DOM เสร็จสมบูรณ์
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        renderTimetable();
+        renderCourseCards();
+        initActions();
+        console.info('[App Init] โหลดตารางเรียน Version 1.0 สำเร็จ');
+      } catch (err) {
+        console.error('[App Error] เกิดข้อผิดพลาดในการแสดงผลตารางเรียน:', err);
+      }
+    });
+  </script>
+</body>
+</html>
