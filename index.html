@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.0</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -495,7 +495,7 @@
         <div class="badge-group">
           <span class="badge">📚 วิชาที่เลือกแล้ว: 6 วิชา (14 หน่วยกิต)</span>
           <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.0</span>
+          <span class="badge">🔖 Version 1.2</span>
         </div>
       </div>
       <div class="header-actions">
@@ -552,7 +552,7 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.0
+     * Version 1.2
      */
 
     // ข้อมูลรายวิชาทั้ง 6 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
@@ -581,14 +581,14 @@
         nameEn: 'Theory of Structures',
         category: 'วิชาแกน/บังคับ (เพิ่ม)',
         credits: '3(3-0-6)',
-        section: '700',
+        section: '833',
         room: 'E6220',
         colorBg: '#ede9fe',
         colorBorder: '#7c3aed',
         colorText: '#5b21b6',
         schedules: [
-          { day: 'TUE', start: '13:00', end: '14:30', sec: '700', note: 'ห้อง E6220' },
-          { day: 'WED', start: '13:00', end: '14:30', sec: '700', note: 'ห้อง E6220' }
+          { day: 'TUE', start: '13:00', end: '14:30', sec: '833', note: 'ห้อง E6220' },
+          { day: 'WED', start: '13:00', end: '14:30', sec: '833', note: 'ห้อง E6220' }
         ]
       },
       {
@@ -949,7 +949,7 @@
         renderTimetable();
         renderCourseCards();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.0 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.2 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาดในการแสดงผลตารางเรียน:', err);
       }
