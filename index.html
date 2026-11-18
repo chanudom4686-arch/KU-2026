@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.3</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.4</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -197,10 +197,10 @@
     }
 
     .timetable {
-      min-width: 960px;
+      min-width: 1040px;
       display: grid;
-      /* Column 1: Day label (100px), Columns 2..19: 18 half-hour slots from 08:00 to 17:00 */
-      grid-template-columns: 100px repeat(18, minmax(46px, 1fr));
+      /* Column 1: Day label (100px), Columns 2..21: 20 half-hour slots from 08:00 to 18:00 */
+      grid-template-columns: 100px repeat(20, minmax(44px, 1fr));
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -493,9 +493,9 @@
         <h1>ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)</h1>
         <p>คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (หลักสูตร 2566 - รหัส 67)</p>
         <div class="badge-group">
-          <span class="badge">📚 วิชาที่เลือกแล้ว: 6 วิชา (14 หน่วยกิต)</span>
+          <span class="badge">📚 วิชาที่เลือกแล้ว: 7 วิชา (18 หน่วยกิต)</span>
           <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.3</span>
+          <span class="badge">🔖 Version 1.4</span>
         </div>
       </div>
       <div class="header-actions">
@@ -503,7 +503,7 @@
           ✨ แสดงช่วงเวลาว่างแนะนำ (เลือกเสรี)
         </button>
         <button id="btnCopyAll" class="btn btn-primary" type="button">
-          📋 คัดลอกรหัสทั้งหมด (6 วิชา)
+          📋 คัดลอกรหัสทั้งหมด (7 วิชา)
         </button>
         <a href="https://my.ku.th/myku/student/std/subject" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">
           🔗 เปิดเว็บค้นหาวิชา MyKU
@@ -552,10 +552,10 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.3
+     * Version 1.4
      */
 
-    // ข้อมูลรายวิชาทั้ง 6 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
+    // ข้อมูลรายวิชาทั้ง 7 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
     const COURSES_DATA = [
       {
         code: '02207424',
@@ -589,6 +589,23 @@
         schedules: [
           { day: 'TUE', start: '13:00', end: '14:30', sec: '833', note: 'ห้อง E6220' },
           { day: 'WED', start: '13:00', end: '14:30', sec: '833', note: 'ห้อง E6220' }
+        ]
+      },
+      {
+        code: '02232322',
+        fullCode: '02232322-66',
+        nameTh: 'การออกแบบโครงสร้างคอนกรีตเสริมเหล็ก',
+        nameEn: 'Design of Reinforced Concrete Structures',
+        category: 'วิชาบังคับ',
+        credits: '4(3-3-8)',
+        section: '700 (บรรยาย) + 711 (ปฏิบัติ)',
+        room: 'E6219',
+        colorBg: '#ccfbf1',
+        colorBorder: '#0d9488',
+        colorText: '#115e59',
+        schedules: [
+          { day: 'MON', start: '13:00', end: '16:00', sec: '700', note: 'ห้อง E6219' },
+          { day: 'WED', start: '14:30', end: '17:30', sec: '711', note: 'ห้อง E6219' }
         ]
       },
       {
@@ -658,10 +675,10 @@
       }
     ];
 
-    // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต (วันจันทร์ว่างทั้งวัน!)
+    // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต (วันจันทร์เช้า และ วันอังคารเช้า)
     const RECOMMENDED_FREE_SLOTS = [
       { day: 'MON', start: '09:00', end: '12:00', label: '✨ ว่างเช้า (ลงเลือกเสรีได้)' },
-      { day: 'MON', start: '13:00', end: '16:00', label: '✨ ว่างบ่าย (ลงเลือกเสรีได้)' }
+      { day: 'TUE', start: '08:30', end: '10:30', label: '✨ ว่างเช้า (ลงเลือกเสรีได้)' }
     ];
 
     const DAYS_CONFIG = [
@@ -759,7 +776,7 @@
       cornerEl.style.gridColumn = '1';
       gridEl.appendChild(cornerEl);
 
-      for (let hour = 8; hour < 17; hour++) {
+      for (let hour = 8; hour < 18; hour++) {
         const timeHeader = document.createElement('div');
         timeHeader.className = 'time-header';
         const startStr = `${String(hour).padStart(2, '0')}:00`;
@@ -783,8 +800,8 @@
         dayLabel.style.gridColumn = '1';
         gridEl.appendChild(dayLabel);
 
-        // ช่องพื้นหลัง 18 ช่อง (ช่องละ 30 นาที)
-        for (let slot = 0; slot < 18; slot++) {
+        // ช่องพื้นหลัง 20 ช่อง (ช่องละ 30 นาที: 08:00 - 18:00)
+        for (let slot = 0; slot < 20; slot++) {
           const cellBg = document.createElement('div');
           const isHourStart = slot % 2 === 0;
           const isLunch = slot === 8 || slot === 9; // 12:00 - 13:00
@@ -930,7 +947,7 @@
       if (btnCopyAll) {
         btnCopyAll.addEventListener('click', () => {
           const allCodes = COURSES_DATA.map((c) => c.code).join('\n');
-          copyTextToClipboard(allCodes, 'รหัสวิชาทั้งหมด 6 วิชา');
+          copyTextToClipboard(allCodes, 'รหัสวิชาทั้งหมด 7 วิชา');
         });
       }
 
@@ -949,7 +966,7 @@
         renderTimetable();
         renderCourseCards();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.3 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.4 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาดในการแสดงผลตารางเรียน:', err);
       }
