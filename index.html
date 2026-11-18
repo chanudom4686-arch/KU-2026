@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.2</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.3</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -495,7 +495,7 @@
         <div class="badge-group">
           <span class="badge">📚 วิชาที่เลือกแล้ว: 6 วิชา (14 หน่วยกิต)</span>
           <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.2</span>
+          <span class="badge">🔖 Version 1.3</span>
         </div>
       </div>
       <div class="header-actions">
@@ -552,7 +552,7 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.2
+     * Version 1.3
      */
 
     // ข้อมูลรายวิชาทั้ง 6 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
@@ -565,13 +565,13 @@
         category: 'เฉพาะเลือก',
         credits: '3(3-0-6)',
         section: '700',
-        room: 'เช็คใน MyKU',
+        room: 'E2210 (อ.), E2111 (พ.)',
         colorBg: '#e0f2fe',
         colorBorder: '#0284c7',
         colorText: '#0369a1',
         schedules: [
-          { day: 'MON', start: '09:00', end: '11:00', sec: '700', note: '' },
-          { day: 'WED', start: '09:00', end: '12:00', sec: '700', note: 'ตามตารางแผนฯ' }
+          { day: 'TUE', start: '10:30', end: '12:00', sec: '700', note: 'ห้อง E2210' },
+          { day: 'WED', start: '09:00', end: '10:30', sec: '700', note: 'ห้อง E2111' }
         ]
       },
       {
@@ -599,12 +599,12 @@
         category: 'วิชาบังคับ',
         credits: '3(3-0-6)',
         section: '700',
-        room: 'เช็คใน MyKU',
+        room: 'E6219',
         colorBg: '#ffedd5',
         colorBorder: '#ea580c',
         colorText: '#9a3412',
         schedules: [
-          { day: 'FRI', start: '13:00', end: '16:00', sec: '700', note: '' }
+          { day: 'FRI', start: '13:00', end: '16:00', sec: '700', note: 'ห้อง E6219' }
         ]
       },
       {
@@ -615,12 +615,12 @@
         category: 'วิชาบังคับ (แล็บ)',
         credits: '1(0-3-2)',
         section: '712',
-        room: 'เช็คใน MyKU',
+        room: 'E6108',
         colorBg: '#fce7f3',
         colorBorder: '#db2777',
         colorText: '#9d174d',
         schedules: [
-          { day: 'THU', start: '13:00', end: '16:00', sec: '712', note: 'เลือกหมู่ 712' }
+          { day: 'THU', start: '13:00', end: '16:00', sec: '712', note: 'ห้อง E6108' }
         ]
       },
       {
@@ -631,12 +631,12 @@
         category: 'วิชาบังคับ',
         credits: '1(1-0-2)',
         section: '700',
-        room: 'เช็คใน MyKU',
+        room: 'E2111',
         colorBg: '#fef3c7',
         colorBorder: '#d97706',
         colorText: '#92400e',
         schedules: [
-          { day: 'FRI', start: '09:00', end: '10:00', sec: '700', note: '' }
+          { day: 'FRI', start: '09:00', end: '10:00', sec: '700', note: 'ห้อง E2111' }
         ]
       },
       {
@@ -647,21 +647,21 @@
         category: 'วิชาบังคับ',
         credits: '3(3-0-6)',
         section: '700',
-        room: 'เช็คใน MyKU',
+        room: 'E6221',
         colorBg: '#dcfce7',
         colorBorder: '#16a34a',
         colorText: '#166534',
         schedules: [
-          { day: 'THU', start: '10:30', end: '12:00', sec: '700', note: '' },
-          { day: 'FRI', start: '10:30', end: '12:00', sec: '700', note: '' }
+          { day: 'THU', start: '10:30', end: '12:00', sec: '700', note: 'ห้อง E6221' },
+          { day: 'FRI', start: '10:30', end: '12:00', sec: '700', note: 'ห้อง E6221' }
         ]
       }
     ];
 
-    // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต
+    // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต (วันจันทร์ว่างทั้งวัน!)
     const RECOMMENDED_FREE_SLOTS = [
-      { day: 'MON', start: '13:00', end: '16:00', label: '✨ ว่างช่วงบ่าย (ลงเลือกเสรีได้)' },
-      { day: 'TUE', start: '09:00', end: '12:00', label: '✨ ว่างช่วงเช้า (ลงเลือกเสรีได้)' }
+      { day: 'MON', start: '09:00', end: '12:00', label: '✨ ว่างเช้า (ลงเลือกเสรีได้)' },
+      { day: 'MON', start: '13:00', end: '16:00', label: '✨ ว่างบ่าย (ลงเลือกเสรีได้)' }
     ];
 
     const DAYS_CONFIG = [
@@ -949,7 +949,7 @@
         renderTimetable();
         renderCourseCards();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.2 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.3 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาดในการแสดงผลตารางเรียน:', err);
       }
