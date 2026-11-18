@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.4</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -495,7 +495,7 @@
         <div class="badge-group">
           <span class="badge">📚 วิชาที่เลือกแล้ว: 7 วิชา (18 หน่วยกิต)</span>
           <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.4</span>
+          <span class="badge">🔖 Version 1.5</span>
         </div>
       </div>
       <div class="header-actions">
@@ -552,7 +552,7 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.4
+     * Version 1.5
      */
 
     // ข้อมูลรายวิชาทั้ง 7 วิชา (แยกเก็บที่เดียวตามหลัก DRY)
@@ -604,7 +604,7 @@
         colorBorder: '#0d9488',
         colorText: '#115e59',
         schedules: [
-          { day: 'MON', start: '13:00', end: '16:00', sec: '700', note: 'ห้อง E6219' },
+          { day: 'MON', start: '14:30', end: '17:30', sec: '700', note: 'ห้อง E6219' },
           { day: 'WED', start: '14:30', end: '17:30', sec: '711', note: 'ห้อง E6219' }
         ]
       },
@@ -678,6 +678,7 @@
     // ช่วงเวลาว่างแนะนำสำหรับลงวิชาเลือกเสรี 3 หน่วยกิต (วันจันทร์เช้า และ วันอังคารเช้า)
     const RECOMMENDED_FREE_SLOTS = [
       { day: 'MON', start: '09:00', end: '12:00', label: '✨ ว่างเช้า (ลงเลือกเสรีได้)' },
+      { day: 'MON', start: '13:00', end: '14:30', label: '✨ ว่างบ่ายต้น' },
       { day: 'TUE', start: '08:30', end: '10:30', label: '✨ ว่างเช้า (ลงเลือกเสรีได้)' }
     ];
 
@@ -966,7 +967,7 @@
         renderTimetable();
         renderCourseCards();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.4 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.5 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาดในการแสดงผลตารางเรียน:', err);
       }
