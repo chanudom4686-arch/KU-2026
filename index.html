@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.7</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.8</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -241,7 +241,7 @@
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.2s ease;
       position: relative;
       z-index: 2;
       overflow: hidden;
@@ -251,6 +251,10 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
       z-index: 5;
+    }
+
+    .course-block.inactive {
+      display: none;
     }
 
     .course-block-top {
@@ -319,10 +323,20 @@
       padding: 12px 14px;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
+      transition: opacity 0.2s ease, background-color 0.2s ease;
     }
 
     .custom-subject-table tr:hover {
       background-color: #f8fafc;
+    }
+
+    .custom-subject-table tr.row-excluded td {
+      opacity: 0.45;
+      background-color: #f8fafc;
+    }
+
+    .custom-subject-table tr.row-excluded td.col-checkbox {
+      opacity: 1;
     }
 
     .custom-subject-table tfoot tr {
@@ -416,6 +430,48 @@
       flex-shrink: 0;
     }
 
+    /* Checkbox Styling */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .subject-check {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #94a3b8;
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+      display: grid;
+      place-content: center;
+      transition: all 0.15s ease;
+      background-color: #ffffff;
+    }
+
+    .subject-check:checked {
+      background-color: var(--ku-green);
+      border-color: var(--ku-green);
+    }
+
+    .subject-check:checked::before {
+      content: "";
+      width: 10px;
+      height: 6px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(-45deg) translate(1px, -1px);
+    }
+
+    .subject-check:hover {
+      border-color: var(--ku-green);
+      box-shadow: 0 0 0 3px var(--ku-green-light);
+    }
+
     /* Toast Notification */
     .toast-container {
       position: fixed;
@@ -472,14 +528,14 @@
         <h1>ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)</h1>
         <p>คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (หลักสูตร 2566 - รหัส 67)</p>
         <div class="badge-group">
-          <span class="badge">📚 วิชาหลักในตาราง: 7 วิชา (18 หน่วยกิต)</span>
-          <span class="badge">💡 ตัวเลือกวิชาเลือกเสรี: 2 วิชา (วิชาละ 3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.7</span>
+          <span id="badgeActiveCredits" class="badge">📚 หน่วยกิตที่เลือก: 24 หน่วยกิต (9 วิชา)</span>
+          <span class="badge">✨ ติ๊กเลือก/ไม่เลือกวิชาได้ตามต้องการ</span>
+          <span class="badge">🔖 Version 1.8</span>
         </div>
       </div>
       <div class="header-actions">
         <button id="btnCopyAll" class="btn btn-primary" type="button">
-          📋 คัดลอกรหัส-ปีทั้งหมด (9 วิชา)
+          📋 คัดลอกรหัส-ปีวิชาที่เลือก
         </button>
         <a href="https://my.ku.th/myku/student/std/subject" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">
           🔗 เปิดเว็บค้นหาวิชา MyKU
@@ -494,7 +550,7 @@
           🗓️ ตารางเรียนรายสัปดาห์ (08:00 - 20:00 น.)
         </div>
         <div class="section-hint">
-          *คลิกที่ช่องวิชาใดก็ได้บนตารางเพื่อคัดลอก "รหัส-ปี" สำหรับนำไปวางค้นหาใน MyKU
+          *วิชาที่ติ๊กออกในตารางด้านล่าง จะถูกซ่อนออกจากตารางเรียนอัตโนมัติ
         </div>
       </div>
 
@@ -505,14 +561,14 @@
       </div>
     </section>
 
-    <!-- Course Table UI with Columns: Code-Year, Section, Name, Credit, Schedule/Room, and Total Footer -->
+    <!-- Course Table UI with Interactive Checkbox for Credit Calculation -->
     <section class="section-card">
       <div class="section-header">
         <div class="section-title">
-          📋 รายชื่อวิชาและปุ่มคัดลอกรหัสวิชา (สำหรับวางใน MyKU)
+          📋 รายชื่อวิชาและระบบคำนวณหน่วยกิต (เลือก/ไม่เลือก เพื่อคำนวณ)
         </div>
         <div class="section-hint">
-          จัดเรียงตามลำดับที่กำหนด พร้อมแสดงจำนวนหน่วยกิตแต่ละวิชา และผลรวมหน่วยกิต
+          คลิกที่ช่อง Checkbox ท้ายแถวเพื่อนำวิชาเข้า/ออกจากผลรวมหน่วยกิตและตารางเรียน
         </div>
       </div>
 
@@ -523,8 +579,9 @@
               <th scope="col" style="width: 190px;">รหัส-ปี (คลิกคัดลอก)</th>
               <th scope="col" style="width: 120px;">หมู่เรียน</th>
               <th scope="col">ชื่อ</th>
-              <th scope="col" style="width: 100px; text-align: center;">หน่วยกิต</th>
+              <th scope="col" style="width: 90px; text-align: center;">หน่วยกิต</th>
               <th scope="col">วัน-เวลาเรียน & ห้องเรียน</th>
+              <th scope="col" style="width: 80px; text-align: center;">เลือก</th>
             </tr>
           </thead>
           <tbody id="subjectTableBody">
@@ -533,13 +590,13 @@
           <tfoot>
             <tr>
               <td colspan="3" style="text-align: right; padding-right: 20px;">
-                <strong>รวมหน่วยกิต (7 วิชาหลักของสาขา):</strong>
+                <strong>รวมหน่วยกิตของวิชาที่เลือก:</strong>
               </td>
               <td style="text-align: center;">
-                <span class="credit-badge" style="font-size: 1rem; background-color: #006664; color: #ffffff;">18</span>
+                <span id="totalCreditsDisplay" class="credit-badge" style="font-size: 1.05rem; background-color: #006664; color: #ffffff;">24</span>
               </td>
-              <td style="color: var(--text-muted); font-size: 0.85rem;">
-                *(ไม่รวมวิชาเลือกเสรี 01999213 / 03751111 ซึ่งเลือกเพิ่ม 3 หน่วยกิต รวมเป็น 21 นก.)*
+              <td colspan="2" id="totalSummaryHint" style="color: var(--text-muted); font-size: 0.85rem;">
+                *(เลือกอยู่ครบ 9 วิชา รวม 24 หน่วยกิต)*
               </td>
             </tr>
           </tfoot>
@@ -554,13 +611,13 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.7
-     * เพิ่ม 2 วิชาศึกษาทั่วไปที่ไม่ชนเวลา (01999213 หมู่ 890 และ 03751111 หมู่ 878)
-     * เพิ่มคอลัมน์หน่วยกิต และสรุปผลรวมหน่วยกิต
+     * Version 1.8
+     * ฟีเจอร์ Checkbox ท้ายแถวรายวิชา สำหรับคำนวณหน่วยกิตและซ่อน/แสดงวิชาบนตารางแบบ Real-time
      */
 
     const COURSES_DATA = [
       {
+        id: 'c1',
         code: '02232222',
         fullCode: '02232222-66',
         nameTh: 'ทฤษฎีโครงสร้าง',
@@ -569,6 +626,7 @@
         creditText: '3(3-0-6)',
         section: '833',
         room: 'E6220',
+        selected: true,
         colorBg: '#ede9fe',
         colorBorder: '#7c3aed',
         colorText: '#5b21b6',
@@ -578,6 +636,7 @@
         ]
       },
       {
+        id: 'c2',
         code: '02232352',
         fullCode: '02232352-66',
         nameTh: 'ปฏิบัติการกลศาสตร์ของดิน',
@@ -586,6 +645,7 @@
         creditText: '1(0-3-2)',
         section: '712',
         room: 'E6108',
+        selected: true,
         colorBg: '#fce7f3',
         colorBorder: '#db2777',
         colorText: '#9d174d',
@@ -594,6 +654,7 @@
         ]
       },
       {
+        id: 'c3',
         code: '02207424',
         fullCode: '02207424-66',
         nameTh: 'วิศวกรรมการประปา',
@@ -602,6 +663,7 @@
         creditText: '3(3-0-6)',
         section: '700',
         room: 'E2210 (อ.), E2111 (พ.)',
+        selected: true,
         colorBg: '#e0f2fe',
         colorBorder: '#0284c7',
         colorText: '#0369a1',
@@ -611,6 +673,7 @@
         ]
       },
       {
+        id: 'c4',
         code: '02232351',
         fullCode: '02232351-66',
         nameTh: 'กลศาสตร์ของดิน',
@@ -619,6 +682,7 @@
         creditText: '3(3-0-6)',
         section: '700',
         room: 'E6219',
+        selected: true,
         colorBg: '#ffedd5',
         colorBorder: '#ea580c',
         colorText: '#9a3412',
@@ -627,6 +691,7 @@
         ]
       },
       {
+        id: 'c5',
         code: '02207491',
         fullCode: '02207491-66',
         nameTh: 'ระเบียบวิธีวิจัยทางวิศวกรรมชลประทาน',
@@ -635,6 +700,7 @@
         creditText: '1(1-0-2)',
         section: '700',
         room: 'E2111',
+        selected: true,
         colorBg: '#fef3c7',
         colorBorder: '#d97706',
         colorText: '#92400e',
@@ -643,6 +709,7 @@
         ]
       },
       {
+        id: 'c6',
         code: '02232461',
         fullCode: '02232461-66',
         nameTh: 'วิศวกรรมก่อสร้างและการจัดการโครงสร้างพื้นฐาน',
@@ -651,6 +718,7 @@
         creditText: '3(3-0-6)',
         section: '700',
         room: 'E6221',
+        selected: true,
         colorBg: '#dcfce7',
         colorBorder: '#16a34a',
         colorText: '#166534',
@@ -660,6 +728,7 @@
         ]
       },
       {
+        id: 'c7',
         code: '02232322',
         fullCode: '02232322-66',
         nameTh: 'การออกแบบโครงสร้างคอนกรีตเสริมเหล็ก',
@@ -668,6 +737,7 @@
         creditText: '4(3-3-8)',
         section: '700, 711',
         room: 'E6219',
+        selected: true,
         colorBg: '#ccfbf1',
         colorBorder: '#0d9488',
         colorText: '#115e59',
@@ -677,14 +747,16 @@
         ]
       },
       {
+        id: 'c8',
         code: '01999213',
         fullCode: '01999213-67',
-        nameTh: 'สิ่งแวดล้อม เทคโนโลยีและชีวิต (เลือกเสรีแนะนำ)',
+        nameTh: 'สิ่งแวดล้อม เทคโนโลยีและชีวิต (เลือกเสรี)',
         nameEn: 'Environment, Technology and Life',
         credits: 3,
         creditText: '3(3-0-6)',
         section: '890 (พิเศษ)',
         room: 'LH4-103',
+        selected: true,
         colorBg: '#f1f5f9',
         colorBorder: '#64748b',
         colorText: '#334155',
@@ -694,14 +766,16 @@
         ]
       },
       {
+        id: 'c9',
         code: '03751111',
         fullCode: '03751111-67',
-        nameTh: 'มนุษย์กับสิ่งแวดล้อม (เลือกเสรีแนะนำ)',
+        nameTh: 'มนุษย์กับสิ่งแวดล้อม (เลือกเสรี)',
         nameEn: 'Man and Environment',
         credits: 3,
         creditText: '3(3-0-6)',
         section: '878 (พิเศษ)',
         room: 'LH4-102',
+        selected: true,
         colorBg: '#fef9c3',
         colorBorder: '#ca8a04',
         colorText: '#854d0e',
@@ -777,6 +851,41 @@
       }
     }
 
+    function updateCalculations() {
+      const selectedCourses = COURSES_DATA.filter((c) => c.selected);
+      const totalCredits = selectedCourses.reduce((sum, c) => sum + c.credits, 0);
+
+      // อัปเดตตัวเลขผลรวมท้ายตาราง
+      const displayEl = document.getElementById('totalCreditsDisplay');
+      if (displayEl) {
+        displayEl.textContent = totalCredits;
+      }
+
+      // อัปเดตข้อความอธิบายท้ายตาราง
+      const hintEl = document.getElementById('totalSummaryHint');
+      if (hintEl) {
+        hintEl.textContent = `*(เลือกอยู่ ${selectedCourses.length} จาก 9 วิชา รวม ${totalCredits} หน่วยกิต)*`;
+      }
+
+      // อัปเดต Badge บนหัวการ์ด
+      const badgeCredits = document.getElementById('badgeActiveCredits');
+      if (badgeCredits) {
+        badgeCredits.textContent = `📚 หน่วยกิตที่เลือก: ${totalCredits} หน่วยกิต (${selectedCourses.length} วิชา)`;
+      }
+
+      // ปรับการแสดงผลบล็อกในตารางเรียน (ซ่อน/แสดง)
+      COURSES_DATA.forEach((course) => {
+        const blocks = document.querySelectorAll(`.block-course-${course.id}`);
+        blocks.forEach((b) => {
+          if (course.selected) {
+            b.classList.remove('inactive');
+          } else {
+            b.classList.add('inactive');
+          }
+        });
+      });
+    }
+
     function renderTimetable() {
       const gridEl = document.getElementById('timetableGrid');
       if (!gridEl) return;
@@ -836,7 +945,7 @@
           const colEnd = timeToGridColumn(sched.end);
 
           const block = document.createElement('div');
-          block.className = 'course-block';
+          block.className = `course-block block-course-${course.id} ${course.selected ? '' : 'inactive'}`;
           block.title = `คลิกเพื่อคัดลอกรหัส-ปี ${course.fullCode}`;
           block.style.gridRow = String(rowNumber);
           block.style.gridColumn = `${colStart} / ${colEnd}`;
@@ -877,6 +986,9 @@
           .join('<br>');
 
         const tr = document.createElement('tr');
+        tr.id = `row-${course.id}`;
+        if (!course.selected) tr.classList.add('row-excluded');
+
         tr.innerHTML = `
           <td>
             <button type="button" class="copy-code-badge" data-code="${course.fullCode}" data-name="${course.nameTh}" title="คลิกเพื่อคัดลอกรหัส ${course.fullCode}">
@@ -901,8 +1013,14 @@
           <td style="font-size: 0.86rem; color: #334155;">
             ${scheduleText}
           </td>
+          <td class="col-checkbox" style="text-align: center;">
+            <label class="checkbox-container" title="ติ๊กเพื่อคำนวณหน่วยกิตและแสดงบนตาราง">
+              <input type="checkbox" class="subject-check" data-id="${course.id}" ${course.selected ? 'checked' : ''} />
+            </label>
+          </td>
         `;
 
+        // ปุ่มคัดลอก
         const copyBtn = tr.querySelector('.copy-code-badge');
         copyBtn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(course.fullCode, course.fullCode);
@@ -917,6 +1035,18 @@
           }
         });
 
+        // Checkbox คำนวณหน่วยกิต
+        const checkbox = tr.querySelector('.subject-check');
+        checkbox.addEventListener('change', (e) => {
+          course.selected = e.target.checked;
+          if (course.selected) {
+            tr.classList.remove('row-excluded');
+          } else {
+            tr.classList.add('row-excluded');
+          }
+          updateCalculations();
+        });
+
         tbody.appendChild(tr);
       });
     }
@@ -925,8 +1055,13 @@
       const btnCopyAll = document.getElementById('btnCopyAll');
       if (btnCopyAll) {
         btnCopyAll.addEventListener('click', () => {
-          const allFullCodes = COURSES_DATA.map((c) => c.fullCode).join('\n');
-          copyTextToClipboard(allFullCodes, 'รหัส-ปี ทั้งหมด 9 วิชา');
+          const selectedCourses = COURSES_DATA.filter((c) => c.selected);
+          if (selectedCourses.length === 0) {
+            showToast('⚠️ ยังไม่ได้เลือกวิชาใดเลย');
+            return;
+          }
+          const allFullCodes = selectedCourses.map((c) => c.fullCode).join('\n');
+          copyTextToClipboard(allFullCodes, `รหัส-ปี (${selectedCourses.length} วิชาที่เลือก)`);
         });
       }
     }
@@ -936,7 +1071,8 @@
         renderTimetable();
         renderSubjectTable();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.7 สำเร็จ');
+        updateCalculations();
+        console.info('[App Init] โหลดตารางเรียน Version 1.8 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาด:', err);
       }
