@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.6</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.7</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
     }
 
     .container {
-      max-width: 1240px;
+      max-width: 1260px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -169,10 +169,10 @@
     }
 
     .timetable {
-      min-width: 1040px;
+      min-width: 1200px;
       display: grid;
-      /* Column 1: Day label (100px), Columns 2..21: 20 half-hour slots from 08:00 to 18:00 */
-      grid-template-columns: 100px repeat(20, minmax(44px, 1fr));
+      /* Column 1: Day label (100px), Columns 2..25: 24 half-hour slots from 08:00 to 20:00 */
+      grid-template-columns: 100px repeat(24, minmax(44px, 1fr));
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -183,8 +183,8 @@
       background-color: #f8fafc;
       border-bottom: 2px solid var(--border-color);
       border-left: 1px solid var(--border-color);
-      padding: 10px 6px;
-      font-size: 0.78rem;
+      padding: 10px 4px;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-muted);
       text-align: center;
@@ -233,9 +233,9 @@
 
     /* Course Block inside Timetable */
     .course-block {
-      margin: 5px 3px;
-      padding: 8px 10px;
-      border-radius: 10px;
+      margin: 4px 2px;
+      padding: 6px 8px;
+      border-radius: 8px;
       border-left: 4px solid;
       display: flex;
       flex-direction: column;
@@ -262,35 +262,35 @@
 
     .course-code-pill {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 5px;
-      background: rgba(255, 255, 255, 0.75);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .course-sec-pill {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 600;
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     .course-block-name {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       font-weight: 600;
-      margin: 4px 0 2px;
-      line-height: 1.25;
+      margin: 2px 0;
+      line-height: 1.2;
     }
 
     .course-block-meta {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       opacity: 0.85;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    /* New Course Table UI */
+    /* Course Table UI */
     .table-container {
       width: 100%;
       overflow-x: auto;
@@ -310,26 +310,33 @@
       background-color: #f8fafc;
       color: var(--text-muted);
       font-weight: 600;
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-bottom: 2px solid var(--border-color);
       white-space: nowrap;
     }
 
     .custom-subject-table td {
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-bottom: 1px solid var(--border-color);
       vertical-align: middle;
-    }
-
-    .custom-subject-table tr:last-child td {
-      border-bottom: none;
     }
 
     .custom-subject-table tr:hover {
       background-color: #f8fafc;
     }
 
-    /* Clickable Copy Code Button inside Table */
+    .custom-subject-table tfoot tr {
+      background-color: #f1f5f9;
+      font-weight: 700;
+      border-top: 2px solid var(--border-color);
+    }
+
+    .custom-subject-table tfoot td {
+      padding: 14px 16px;
+      color: var(--text-main);
+      border-bottom: none;
+    }
+
     .copy-code-badge {
       display: inline-flex;
       align-items: center;
@@ -339,7 +346,7 @@
       padding: 6px 12px;
       border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       border: 1px solid rgba(0, 102, 100, 0.25);
@@ -372,7 +379,19 @@
       color: #334155;
       padding: 4px 10px;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
+      white-space: nowrap;
+    }
+
+    .credit-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--ku-green);
+      background-color: var(--ku-green-light);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.86rem;
       white-space: nowrap;
     }
 
@@ -453,14 +472,14 @@
         <h1>ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)</h1>
         <p>คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (หลักสูตร 2566 - รหัส 67)</p>
         <div class="badge-group">
-          <span class="badge">📚 วิชาที่ลงทะเบียน: 7 วิชา (18 หน่วยกิต)</span>
-          <span class="badge">🎯 เหลือเลือกเสรี: 1 วิชา (3 หน่วยกิต)</span>
-          <span class="badge">🔖 Version 1.6</span>
+          <span class="badge">📚 วิชาหลักในตาราง: 7 วิชา (18 หน่วยกิต)</span>
+          <span class="badge">💡 ตัวเลือกวิชาเลือกเสรี: 2 วิชา (วิชาละ 3 หน่วยกิต)</span>
+          <span class="badge">🔖 Version 1.7</span>
         </div>
       </div>
       <div class="header-actions">
         <button id="btnCopyAll" class="btn btn-primary" type="button">
-          📋 คัดลอกรหัส-ปีทั้งหมด (7 วิชา)
+          📋 คัดลอกรหัส-ปีทั้งหมด (9 วิชา)
         </button>
         <a href="https://my.ku.th/myku/student/std/subject" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light">
           🔗 เปิดเว็บค้นหาวิชา MyKU
@@ -472,7 +491,10 @@
     <section class="section-card">
       <div class="section-header">
         <div class="section-title">
-          🗓️ ตารางเรียนรายสัปดาห์ (คลิกที่ช่องวิชาเพื่อคัดลอกรหัส-ปี ได้ทันที)
+          🗓️ ตารางเรียนรายสัปดาห์ (08:00 - 20:00 น.)
+        </div>
+        <div class="section-hint">
+          *คลิกที่ช่องวิชาใดก็ได้บนตารางเพื่อคัดลอก "รหัส-ปี" สำหรับนำไปวางค้นหาใน MyKU
         </div>
       </div>
 
@@ -483,14 +505,14 @@
       </div>
     </section>
 
-    <!-- Course Table UI with 1-Click Copy Code-Year -->
+    <!-- Course Table UI with Columns: Code-Year, Section, Name, Credit, Schedule/Room, and Total Footer -->
     <section class="section-card">
       <div class="section-header">
         <div class="section-title">
           📋 รายชื่อวิชาและปุ่มคัดลอกรหัสวิชา (สำหรับวางใน MyKU)
         </div>
         <div class="section-hint">
-          คลิกที่ปุ่มรหัสสีเขียวเพื่อคัดลอก "รหัส-ปี" สำหรับค้นหาใน MyKU ได้ทันที
+          จัดเรียงตามลำดับที่กำหนด พร้อมแสดงจำนวนหน่วยกิตแต่ละวิชา และผลรวมหน่วยกิต
         </div>
       </div>
 
@@ -498,15 +520,29 @@
         <table class="custom-subject-table" aria-label="ตารางรายชื่อวิชา">
           <thead>
             <tr>
-              <th scope="col" style="width: 200px;">รหัส-ปี (คลิกคัดลอก)</th>
-              <th scope="col" style="width: 140px;">หมู่เรียน</th>
+              <th scope="col" style="width: 190px;">รหัส-ปี (คลิกคัดลอก)</th>
+              <th scope="col" style="width: 120px;">หมู่เรียน</th>
               <th scope="col">ชื่อ</th>
+              <th scope="col" style="width: 100px; text-align: center;">หน่วยกิต</th>
               <th scope="col">วัน-เวลาเรียน & ห้องเรียน</th>
             </tr>
           </thead>
           <tbody id="subjectTableBody">
-            <!-- Rendered dynamically via ES6 JavaScript according to exact sequence -->
+            <!-- Rendered dynamically via ES6 JavaScript -->
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="text-align: right; padding-right: 20px;">
+                <strong>รวมหน่วยกิต (7 วิชาหลักของสาขา):</strong>
+              </td>
+              <td style="text-align: center;">
+                <span class="credit-badge" style="font-size: 1rem; background-color: #006664; color: #ffffff;">18</span>
+              </td>
+              <td style="color: var(--text-muted); font-size: 0.85rem;">
+                *(ไม่รวมวิชาเลือกเสรี 01999213 / 03751111 ซึ่งเลือกเพิ่ม 3 หน่วยกิต รวมเป็น 21 นก.)*
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </section>
@@ -518,8 +554,9 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.6
-     * จัดเรียงลำดับวิชาตามที่ผู้ใช้กำหนด พร้อมระบบคัดลอกรหัส-ปี (Full Code)
+     * Version 1.7
+     * เพิ่ม 2 วิชาศึกษาทั่วไปที่ไม่ชนเวลา (01999213 หมู่ 890 และ 03751111 หมู่ 878)
+     * เพิ่มคอลัมน์หน่วยกิต และสรุปผลรวมหน่วยกิต
      */
 
     const COURSES_DATA = [
@@ -528,7 +565,8 @@
         fullCode: '02232222-66',
         nameTh: 'ทฤษฎีโครงสร้าง',
         nameEn: 'Theory of Structures',
-        credits: '3(3-0-6)',
+        credits: 3,
+        creditText: '3(3-0-6)',
         section: '833',
         room: 'E6220',
         colorBg: '#ede9fe',
@@ -544,7 +582,8 @@
         fullCode: '02232352-66',
         nameTh: 'ปฏิบัติการกลศาสตร์ของดิน',
         nameEn: 'Soil Mechanics Laboratory',
-        credits: '1(0-3-2)',
+        credits: 1,
+        creditText: '1(0-3-2)',
         section: '712',
         room: 'E6108',
         colorBg: '#fce7f3',
@@ -559,7 +598,8 @@
         fullCode: '02207424-66',
         nameTh: 'วิศวกรรมการประปา',
         nameEn: 'Water Supply Engineering',
-        credits: '3(3-0-6)',
+        credits: 3,
+        creditText: '3(3-0-6)',
         section: '700',
         room: 'E2210 (อ.), E2111 (พ.)',
         colorBg: '#e0f2fe',
@@ -575,7 +615,8 @@
         fullCode: '02232351-66',
         nameTh: 'กลศาสตร์ของดิน',
         nameEn: 'Mechanics of Soil',
-        credits: '3(3-0-6)',
+        credits: 3,
+        creditText: '3(3-0-6)',
         section: '700',
         room: 'E6219',
         colorBg: '#ffedd5',
@@ -590,7 +631,8 @@
         fullCode: '02207491-66',
         nameTh: 'ระเบียบวิธีวิจัยทางวิศวกรรมชลประทาน',
         nameEn: 'Research Methods in Irrigation Engineering',
-        credits: '1(1-0-2)',
+        credits: 1,
+        creditText: '1(1-0-2)',
         section: '700',
         room: 'E2111',
         colorBg: '#fef3c7',
@@ -605,7 +647,8 @@
         fullCode: '02232461-66',
         nameTh: 'วิศวกรรมก่อสร้างและการจัดการโครงสร้างพื้นฐาน',
         nameEn: 'Infrastructure Construction Engineering and Management',
-        credits: '3(3-0-6)',
+        credits: 3,
+        creditText: '3(3-0-6)',
         section: '700',
         room: 'E6221',
         colorBg: '#dcfce7',
@@ -621,7 +664,8 @@
         fullCode: '02232322-66',
         nameTh: 'การออกแบบโครงสร้างคอนกรีตเสริมเหล็ก',
         nameEn: 'Design of Reinforced Concrete Structures',
-        credits: '4(3-3-8)',
+        credits: 4,
+        creditText: '4(3-3-8)',
         section: '700, 711',
         room: 'E6219',
         colorBg: '#ccfbf1',
@@ -630,6 +674,40 @@
         schedules: [
           { day: 'MON', start: '14:30', end: '17:30', sec: '700', note: 'ห้อง E6219' },
           { day: 'WED', start: '14:30', end: '17:30', sec: '711', note: 'ห้อง E6219' }
+        ]
+      },
+      {
+        code: '01999213',
+        fullCode: '01999213-67',
+        nameTh: 'สิ่งแวดล้อม เทคโนโลยีและชีวิต (เลือกเสรีแนะนำ)',
+        nameEn: 'Environment, Technology and Life',
+        credits: 3,
+        creditText: '3(3-0-6)',
+        section: '890 (พิเศษ)',
+        room: 'LH4-103',
+        colorBg: '#f1f5f9',
+        colorBorder: '#64748b',
+        colorText: '#334155',
+        schedules: [
+          { day: 'MON', start: '18:30', end: '20:00', sec: '890', note: 'ห้อง LH4-103' },
+          { day: 'WED', start: '18:30', end: '20:00', sec: '890', note: 'ห้อง LH4-103' }
+        ]
+      },
+      {
+        code: '03751111',
+        fullCode: '03751111-67',
+        nameTh: 'มนุษย์กับสิ่งแวดล้อม (เลือกเสรีแนะนำ)',
+        nameEn: 'Man and Environment',
+        credits: 3,
+        creditText: '3(3-0-6)',
+        section: '878 (พิเศษ)',
+        room: 'LH4-102',
+        colorBg: '#fef9c3',
+        colorBorder: '#ca8a04',
+        colorText: '#854d0e',
+        schedules: [
+          { day: 'MON', start: '17:30', end: '19:00', sec: '878', note: 'ห้อง LH4-102' },
+          { day: 'WED', start: '17:30', end: '19:00', sec: '878', note: 'ห้อง LH4-102' }
         ]
       }
     ];
@@ -705,7 +783,7 @@
 
       gridEl.innerHTML = '';
 
-      // แถวหัวตารางเวลา (08:00 - 18:00)
+      // แถวหัวตารางเวลา (08:00 - 20:00) 24 คอลัมน์ย่อย
       const cornerEl = document.createElement('div');
       cornerEl.className = 'corner-header';
       cornerEl.textContent = 'วัน / เวลา';
@@ -713,7 +791,7 @@
       cornerEl.style.gridColumn = '1';
       gridEl.appendChild(cornerEl);
 
-      for (let hour = 8; hour < 18; hour++) {
+      for (let hour = 8; hour < 20; hour++) {
         const timeHeader = document.createElement('div');
         timeHeader.className = 'time-header';
         const startStr = `${String(hour).padStart(2, '0')}:00`;
@@ -736,7 +814,7 @@
         dayLabel.style.gridColumn = '1';
         gridEl.appendChild(dayLabel);
 
-        for (let slot = 0; slot < 20; slot++) {
+        for (let slot = 0; slot < 24; slot++) {
           const cellBg = document.createElement('div');
           const isHourStart = slot % 2 === 0;
           const isLunch = slot === 8 || slot === 9; // 12:00 - 13:00
@@ -814,7 +892,11 @@
               <span class="color-indicator" style="background-color: ${course.colorBorder};"></span>
               <span>${course.nameTh}</span>
             </div>
-            <div class="subject-title-en">${course.nameEn} (${course.credits})</div>
+            <div class="subject-title-en">${course.nameEn}</div>
+          </td>
+          <td style="text-align: center;">
+            <span class="credit-badge">${course.credits}</span>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">${course.creditText}</div>
           </td>
           <td style="font-size: 0.86rem; color: #334155;">
             ${scheduleText}
@@ -844,7 +926,7 @@
       if (btnCopyAll) {
         btnCopyAll.addEventListener('click', () => {
           const allFullCodes = COURSES_DATA.map((c) => c.fullCode).join('\n');
-          copyTextToClipboard(allFullCodes, 'รหัส-ปี ทั้งหมด 7 วิชา');
+          copyTextToClipboard(allFullCodes, 'รหัส-ปี ทั้งหมด 9 วิชา');
         });
       }
     }
@@ -854,7 +936,7 @@
         renderTimetable();
         renderSubjectTable();
         initActions();
-        console.info('[App Init] โหลดตารางเรียน Version 1.6 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.7 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาด:', err);
       }
