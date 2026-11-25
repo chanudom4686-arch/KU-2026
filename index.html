@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.8</title>
+  <title>ตารางเรียน ภาคปลาย 2569 - วิศวกรรมโยธา-ชลประทาน (E04-3) | Version 1.9</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -169,10 +169,10 @@
     }
 
     .timetable {
-      min-width: 1200px;
+      min-width: 1040px;
       display: grid;
-      /* Column 1: Day label (100px), Columns 2..25: 24 half-hour slots from 08:00 to 20:00 */
-      grid-template-columns: 100px repeat(24, minmax(44px, 1fr));
+      /* Column 1: Day label (100px), Columns 2..21: 20 half-hour slots from 08:00 to 18:00 */
+      grid-template-columns: 100px repeat(20, minmax(44px, 1fr));
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       overflow: hidden;
@@ -184,7 +184,7 @@
       border-bottom: 2px solid var(--border-color);
       border-left: 1px solid var(--border-color);
       padding: 10px 4px;
-      font-size: 0.75rem;
+      font-size: 0.78rem;
       font-weight: 600;
       color: var(--text-muted);
       text-align: center;
@@ -528,9 +528,9 @@
         <h1>ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)</h1>
         <p>คณะวิศวกรรมศาสตร์ กำแพงแสน มหาวิทยาลัยเกษตรศาสตร์ (หลักสูตร 2566 - รหัส 67)</p>
         <div class="badge-group">
-          <span id="badgeActiveCredits" class="badge">📚 หน่วยกิตที่เลือก: 24 หน่วยกิต (9 วิชา)</span>
-          <span class="badge">✨ ติ๊กเลือก/ไม่เลือกวิชาได้ตามต้องการ</span>
-          <span class="badge">🔖 Version 1.8</span>
+          <span id="badgeActiveCredits" class="badge">📚 หน่วยกิตที่เลือก: 18 หน่วยกิต (7 วิชา)</span>
+          <span class="badge">✨ ติ๊กเลือก/ไม่เลือกวิชาเพื่อคำนวณได้</span>
+          <span class="badge">🔖 Version 1.9</span>
         </div>
       </div>
       <div class="header-actions">
@@ -547,10 +547,10 @@
     <section class="section-card">
       <div class="section-header">
         <div class="section-title">
-          🗓️ ตารางเรียนรายสัปดาห์ (08:00 - 20:00 น.)
+          🗓️ ตารางเรียนรายสัปดาห์ (08:00 - 18:00 น.)
         </div>
         <div class="section-hint">
-          *วิชาที่ติ๊กออกในตารางด้านล่าง จะถูกซ่อนออกจากตารางเรียนอัตโนมัติ
+          *คลิกที่ช่องวิชาใดก็ได้บนตารางเพื่อคัดลอก "รหัส-ปี" สำหรับนำไปวางค้นหาใน MyKU
         </div>
       </div>
 
@@ -568,7 +568,7 @@
           📋 รายชื่อวิชาและระบบคำนวณหน่วยกิต (เลือก/ไม่เลือก เพื่อคำนวณ)
         </div>
         <div class="section-hint">
-          คลิกที่ช่อง Checkbox ท้ายแถวเพื่อนำวิชาเข้า/ออกจากผลรวมหน่วยกิตและตารางเรียน
+          จัดเรียงตามลำดับที่กำหนด พร้อมช่อง Checkbox ท้ายแถวสำหรับคำนวณหน่วยกิต
         </div>
       </div>
 
@@ -593,10 +593,10 @@
                 <strong>รวมหน่วยกิตของวิชาที่เลือก:</strong>
               </td>
               <td style="text-align: center;">
-                <span id="totalCreditsDisplay" class="credit-badge" style="font-size: 1.05rem; background-color: #006664; color: #ffffff;">24</span>
+                <span id="totalCreditsDisplay" class="credit-badge" style="font-size: 1.05rem; background-color: #006664; color: #ffffff;">18</span>
               </td>
               <td colspan="2" id="totalSummaryHint" style="color: var(--text-muted); font-size: 0.85rem;">
-                *(เลือกอยู่ครบ 9 วิชา รวม 24 หน่วยกิต)*
+                *(เลือกอยู่ครบ 7 วิชา รวม 18 หน่วยกิต)*
               </td>
             </tr>
           </tfoot>
@@ -611,8 +611,9 @@
   <script>
     /**
      * ตารางเรียน ภาคปลาย 2569 (E04-3 วิศวกรรมโยธา-ชลประทาน)
-     * Version 1.8
-     * ฟีเจอร์ Checkbox ท้ายแถวรายวิชา สำหรับคำนวณหน่วยกิตและซ่อน/แสดงวิชาบนตารางแบบ Real-time
+     * Version 1.9
+     * ลบ 01999213-67 และ 03751111-67 ออก
+     * ปรับ 02232322-66 วันจันทร์เป็น 13:00-16:00 น. และวันพุธเป็น 14:30-17:30 น.
      */
 
     const COURSES_DATA = [
@@ -742,46 +743,8 @@
         colorBorder: '#0d9488',
         colorText: '#115e59',
         schedules: [
-          { day: 'MON', start: '14:30', end: '17:30', sec: '700', note: 'ห้อง E6219' },
+          { day: 'MON', start: '13:00', end: '16:00', sec: '700', note: 'ห้อง E6219' },
           { day: 'WED', start: '14:30', end: '17:30', sec: '711', note: 'ห้อง E6219' }
-        ]
-      },
-      {
-        id: 'c8',
-        code: '01999213',
-        fullCode: '01999213-67',
-        nameTh: 'สิ่งแวดล้อม เทคโนโลยีและชีวิต (เลือกเสรี)',
-        nameEn: 'Environment, Technology and Life',
-        credits: 3,
-        creditText: '3(3-0-6)',
-        section: '890 (พิเศษ)',
-        room: 'LH4-103',
-        selected: true,
-        colorBg: '#f1f5f9',
-        colorBorder: '#64748b',
-        colorText: '#334155',
-        schedules: [
-          { day: 'MON', start: '18:30', end: '20:00', sec: '890', note: 'ห้อง LH4-103' },
-          { day: 'WED', start: '18:30', end: '20:00', sec: '890', note: 'ห้อง LH4-103' }
-        ]
-      },
-      {
-        id: 'c9',
-        code: '03751111',
-        fullCode: '03751111-67',
-        nameTh: 'มนุษย์กับสิ่งแวดล้อม (เลือกเสรี)',
-        nameEn: 'Man and Environment',
-        credits: 3,
-        creditText: '3(3-0-6)',
-        section: '878 (พิเศษ)',
-        room: 'LH4-102',
-        selected: true,
-        colorBg: '#fef9c3',
-        colorBorder: '#ca8a04',
-        colorText: '#854d0e',
-        schedules: [
-          { day: 'MON', start: '17:30', end: '19:00', sec: '878', note: 'ห้อง LH4-102' },
-          { day: 'WED', start: '17:30', end: '19:00', sec: '878', note: 'ห้อง LH4-102' }
         ]
       }
     ];
@@ -855,25 +818,21 @@
       const selectedCourses = COURSES_DATA.filter((c) => c.selected);
       const totalCredits = selectedCourses.reduce((sum, c) => sum + c.credits, 0);
 
-      // อัปเดตตัวเลขผลรวมท้ายตาราง
       const displayEl = document.getElementById('totalCreditsDisplay');
       if (displayEl) {
         displayEl.textContent = totalCredits;
       }
 
-      // อัปเดตข้อความอธิบายท้ายตาราง
       const hintEl = document.getElementById('totalSummaryHint');
       if (hintEl) {
-        hintEl.textContent = `*(เลือกอยู่ ${selectedCourses.length} จาก 9 วิชา รวม ${totalCredits} หน่วยกิต)*`;
+        hintEl.textContent = `*(เลือกอยู่ ${selectedCourses.length} จาก ${COURSES_DATA.length} วิชา รวม ${totalCredits} หน่วยกิต)*`;
       }
 
-      // อัปเดต Badge บนหัวการ์ด
       const badgeCredits = document.getElementById('badgeActiveCredits');
       if (badgeCredits) {
         badgeCredits.textContent = `📚 หน่วยกิตที่เลือก: ${totalCredits} หน่วยกิต (${selectedCourses.length} วิชา)`;
       }
 
-      // ปรับการแสดงผลบล็อกในตารางเรียน (ซ่อน/แสดง)
       COURSES_DATA.forEach((course) => {
         const blocks = document.querySelectorAll(`.block-course-${course.id}`);
         blocks.forEach((b) => {
@@ -892,7 +851,7 @@
 
       gridEl.innerHTML = '';
 
-      // แถวหัวตารางเวลา (08:00 - 20:00) 24 คอลัมน์ย่อย
+      // แถวหัวตารางเวลา (08:00 - 18:00) 20 คอลัมน์ย่อย
       const cornerEl = document.createElement('div');
       cornerEl.className = 'corner-header';
       cornerEl.textContent = 'วัน / เวลา';
@@ -900,7 +859,7 @@
       cornerEl.style.gridColumn = '1';
       gridEl.appendChild(cornerEl);
 
-      for (let hour = 8; hour < 20; hour++) {
+      for (let hour = 8; hour < 18; hour++) {
         const timeHeader = document.createElement('div');
         timeHeader.className = 'time-header';
         const startStr = `${String(hour).padStart(2, '0')}:00`;
@@ -912,7 +871,6 @@
         gridEl.appendChild(timeHeader);
       }
 
-      // สร้างแถวแต่ละวัน
       DAYS_CONFIG.forEach((dayObj, dayIdx) => {
         const rowNumber = dayIdx + 2;
 
@@ -923,7 +881,7 @@
         dayLabel.style.gridColumn = '1';
         gridEl.appendChild(dayLabel);
 
-        for (let slot = 0; slot < 24; slot++) {
+        for (let slot = 0; slot < 20; slot++) {
           const cellBg = document.createElement('div');
           const isHourStart = slot % 2 === 0;
           const isLunch = slot === 8 || slot === 9; // 12:00 - 13:00
@@ -934,7 +892,6 @@
         }
       });
 
-      // วาดบล็อกวิชาเรียนลงตาราง
       COURSES_DATA.forEach((course) => {
         course.schedules.forEach((sched) => {
           const dayIdx = DAYS_CONFIG.findIndex((d) => d.key === sched.day);
@@ -1020,7 +977,6 @@
           </td>
         `;
 
-        // ปุ่มคัดลอก
         const copyBtn = tr.querySelector('.copy-code-badge');
         copyBtn.addEventListener('click', async () => {
           const ok = await copyTextToClipboard(course.fullCode, course.fullCode);
@@ -1035,7 +991,6 @@
           }
         });
 
-        // Checkbox คำนวณหน่วยกิต
         const checkbox = tr.querySelector('.subject-check');
         checkbox.addEventListener('change', (e) => {
           course.selected = e.target.checked;
@@ -1072,7 +1027,7 @@
         renderSubjectTable();
         initActions();
         updateCalculations();
-        console.info('[App Init] โหลดตารางเรียน Version 1.8 สำเร็จ');
+        console.info('[App Init] โหลดตารางเรียน Version 1.9 สำเร็จ');
       } catch (err) {
         console.error('[App Error] เกิดข้อผิดพลาด:', err);
       }
